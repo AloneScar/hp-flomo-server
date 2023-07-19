@@ -21,7 +21,7 @@ const createOneMemo = async (req, res) => {
   const { contents } = req.body;
   let memo = {
     contents: "",
-    files: []
+    files: [],
   };
   let _files = req.files;
   if (contents !== undefined) {
@@ -40,16 +40,16 @@ const createOneMemo = async (req, res) => {
     try {
       for (let i = 0; i < files.length; i++) {
         const file = files[i];
-        const filePath = `./files/${file.md5}.${file.name.split(".")[1]}`;
-        file.mv(filePath);
-        memo.files.push({type: file.name.split('.')[1], path: filePath})
+        const filePath = `/files/${file.md5}.${file.name.split(".")[1]}`;
+        file.mv("./public" + filePath);
+        memo.files.push({ type: file.name.split(".")[1], path: filePath });
       }
     } catch (e) {
       console.log(e);
       return res.status(400).json({ msg: `[ERROR] Server error` });
     }
   }
-  memo.contents = contents
+  memo.contents = contents;
   const MemoDoc = new memoModel(memo);
   await MemoDoc.save()
     .then((memo) => {

@@ -9,6 +9,8 @@ dotenv.config();
 
 const app = express();
 
+app.use('/files', express.static('./public/files'))
+
 app.use(cors());
 app.use(upload());
 app.use(express.json());
@@ -21,7 +23,7 @@ mongoose
   .connect(process.env.MONGO_URL)
   .then(() => {
     console.log("connect to mongodb well");
-    app.listen(5555, "0.0.0.0", () => {
+    app.listen(process.env.PORT, process.env.IP, () => {
       console.log(`server running on ${process.env.PORT}`);
     });
   })
